@@ -17,10 +17,32 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Real-world recommendations work by combining behavior (user clicks, skips, likes; both implicit and explicit signals), content data (song's information such as mood and tempo), and context data (when user listens to songs, current events/trends) with machine learning algorithms. Initial response: (This helps give optimal recommendations. In my system, the Recommender uses each Song's mood, energy, and danceability to compute a score for each song. My UserProfile stores the user's preferred mood, energy, and danceability value for ideal songs. The Recommender computes a score for each song through the following math formula: score = (0.5 * mood_score) + (0.3 * energy_score) + (0.2 * danceability_score), where mood_score = 0 or 1 (match or not), energy_score = 1 - (song_energy - target_energy), and danceability_score = 1- (song_danceability - target_danceability). This system prioritizes mood, then energy, then danceability, and this is how the recommender works.)
 
-Some prompts to answer:
-Real-world recommendations work by combining behavior (user clicks, skips, likes; both implicit and explicit signals), content data (song's information such as mood and tempo), and context data (when user listens to songs, current events/trends) with machine learning algorithms. This helps give optimal recommendations. In my system, the Recommender uses each Song's mood, energy, and danceability to compute a score for each song. My UserProfile stores the user's preferred mood, energy, and danceability value for ideal songs. The Recommender computes a score for each song through the following math formula: score = (0.5 * mood_score) + (0.3 * energy_score) + (0.2 * danceability_score), where mood_score = 0 or 1 (match or not), energy_score = 1 - (song_energy - target_energy), and danceability_score = 1- (song_danceability - target_danceability). This system prioritizes mood, then energy, then danceability, and this is how the recommender works.
+Algorithm Recipe: 
+The system takes a user profile and song dataset.
+The user profile is given as:
+class UserProfile:
+    favorite_mood: str  # Primary mood preference
+    mood_tolerance: List[str]  # Secondary acceptable moods ["chill", "focused"]
+    target_energy: float  # 0.6
+    target_danceability: float  # 0.7
+    preferred_genres: List[str]  # ["pop", "indie pop"]
+    likes_acoustic: bool  # True/False to prefer acoustic vs. electronic
+    min_valence: float  # e.g., 0.5 (avoid sad/melancholic songs)
+
+Then, system loops through each song while filtering out those with irrelevent valence (to filter out songs which are clearly not matches). For each remaining song, it computes feature scores such as mood_score ∈ {1.0 (exact match), (acceptable match, in tolerance list), 0.0 (not a match)}, genre_score ∈ {1.0 (exact match), 0.2 (not a match)}, energy_score = 1 - |song.energy - user.target_energy|, and danceability_score = 1 - |song.danceability - user.target_danceability|. It then combines them using a weighted formula:
+score = 0.40*mood_score + 0.30*genre_score + 0.15*energy_score + 0.15*danceability_score.
+
+All (song, score) pairs are stored and sorted in descending order of score.
+Finally, the system returns the top K songs as personalized recommendations.
+
+Here is the mermaid diagram:
+![alt text](image.png)
+
+
+Biases: 
+Because of the weighted formula (0.40*mood_score + 0.30*genre_score + 0.15*energy_score + 0.15*danceability_score), this system will consider mood and genre matches more heavily than energy, danceability. This system will prioritize valence compatability, mood/feel of the song, and the song's classified genre the most, ignoring more technical aspects like acoustics.
 
 ---
 
