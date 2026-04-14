@@ -16,20 +16,53 @@ def main() -> None:
     songs = load_songs("data/songs.csv") 
     print(f'Loaded songs: {len(songs)}') 
 
-    # Starter example profile
-    user_prefs = {
+    # High-energy pop
+    high_energy_pop_profile = {
         "min_valence": 0.4,
         "max_valence": 1,
         "favorite_mood": "happy",
         "mood_tolerance": ["chill", "focused"],
         "preferred_genres": ["pop", "indie pop", "k-pop"],
         "target_energy": 0.8,
-        "target_danceability": 0.7,
+        "target_danceability": 0.7
     }
 
-    min_valence: float  # e.g., 0.5 (avoid sad/melancholic son
+    # Sad Gym Junkie (edge case)
+    edge_case_profile = {
+        "min_valence": 0.2,
+        "max_valence": 0.5,
+        "favorite_mood": "intense",
+        "mood_tolerance": ["sad", "moody"],
+        "preferred_genres": ["rock", "metal", "synthwave"],
+        "target_energy": 0.9,
+        "target_danceability": 0.65
+    }
 
-    recommendations = recommend_songs(user_prefs, songs, k=5)
+    # Chill Lofi
+    chill_lofi_profile = {
+        "min_valence": 0.5,
+        "max_valence": 0.75,
+        "favorite_mood": "chill",
+        "mood_tolerance": ["relaxed", "focused"],
+        "preferred_genres": ["lofi", "ambient", "jazz"],
+        "target_energy": 0.35,
+        "target_danceability": 0.45    
+    }
+
+    # Deep Intense Rock
+    intense_rock_profile = {
+        "min_valence": 0.4,
+        "max_valence": 0.8,
+        "favorite_mood": "intense",
+        "mood_tolerance": ["moody", "energetic"],
+        "preferred_genres": ["rock", "synthwave", "metal"],
+        "target_energy": 0.88,
+        "target_danceability": 0.7, 
+        "likes_acoustic": False,  
+    }
+
+
+    recommendations = recommend_songs(high_energy_pop_profile, songs, k=5)
 
     print("\n🎧 Top Recommendations 🎧\n")
     print("=" * 50)

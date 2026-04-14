@@ -19,9 +19,14 @@ class Song:
 @dataclass
 class UserProfile:
     """Represents a user's music preferences and target listening characteristics."""
+    min_valence: float
+    max_valence: float
     favorite_genre: str
     favorite_mood: str
+    mood_tolerance: List[str]
+    preferred_genres: List[str]
     target_energy: float
+    target_danceability: float
     likes_acoustic: bool
 
 class Recommender:

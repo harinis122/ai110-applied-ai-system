@@ -44,10 +44,26 @@ Here is the mermaid diagram:
 Biases: 
 Because of the weighted formula (0.40*mood_score + 0.30*genre_score + 0.15*energy_score + 0.15*danceability_score), this system will consider mood and genre matches more heavily than energy, danceability. This system will prioritize valence compatability, mood/feel of the song, and the song's classified genre the most, ignoring more technical aspects like acoustics.
 
-Sample Terminal Output:
-![alt text](image-1.png)
+## Sample Terminal Output:
+High Energy/Pop Profile:
+![High Energy/Pop Recommendations](image-1.png)
+
+Sad Gym Junkie (Edge Case) Profile:
+![Edge Case Recommendations](image-2.png)
+
+Chill Lofi Profile:
+![Chill Lofi Recommendations](image-3.png)
+
+Deep Intense Rock Profile:
+![Deep Intense Rock Recommendations](image-4.png)
+
 
 ---
+
+
+
+
+
 
 ## Getting Started
 
