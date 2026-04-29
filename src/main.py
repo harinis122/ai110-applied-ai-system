@@ -77,7 +77,23 @@ def main() -> None:
 
     preliminary_recommendations = recommend_songs(preferred_profile, songs, k=10)
     user_profile_str = str(preferred_profile)
-    recommendations = generate_ai_playlist(user_profile_str, preliminary_recommendations)
+
+    try:
+        recommendations = generate_ai_playlist(user_profile_str, preliminary_recommendations)
+    except Exception as e:
+        print(f"Error generating AI playlist: {e}, Here are the preliminary recommendations without AI reordering and explanations:\n")
+        for i, rec in enumerate(preliminary_recommendations, 1):
+            song, score, explanation = rec
+
+            print(f"\n{i}. {song['title']}")
+            print(f"   Score: {score:.2f}")
+    
+            print("   Reasons:")
+            for reason in explanation.split("; "):
+                print(f"     - {reason}")
+
+        print("\n" + "=" * 50)
+        return
 
     print("\n🎧 Top Recommendations 🎧\n")
     print("=" * 50)
