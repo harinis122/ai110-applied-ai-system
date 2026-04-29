@@ -1,178 +1,240 @@
-# 🎵 Music Recommender Simulation
+# TravelTune AI: RAG-Enhanced Music Recommender
 
-## Project Summary
-
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
+## Base Project and Original Scope
+This project is an extension of my original Music Recommender Simulation (Project 3). Originally, this project used a traditional recommendation algorithm to score songs from a local dataset using the user's music preferences (specifically mood, genre, energy, danceability, and valence). It ranked songs based on the user's preferences and returned the top k recommended matches with basic score-based explanations.
 
 ---
 
-## How The System Works
+## Title and Summary
+TravelTune AI is a personalized playlist generator designed to create a plane ride music playlist. It enhances the original traditional recommender system with Retrieval-Augmented Generation (RAG).
 
-Real-world recommendations work by combining behavior (user clicks, skips, likes; both implicit and explicit signals), content data (song's information such as mood and tempo), and context data (when user listens to songs, current events/trends) with machine learning algorithms. Initial response: (This helps give optimal recommendations. In my system, the Recommender uses each Song's mood, energy, and danceability to compute a score for each song. My UserProfile stores the user's preferred mood, energy, and danceability value for ideal songs. The Recommender computes a score for each song through the following math formula: score = (0.5 * mood_score) + (0.3 * energy_score) + (0.2 * danceability_score), where mood_score = 0 or 1 (match or not), energy_score = 1 - (song_energy - target_energy), and danceability_score = 1- (song_danceability - target_danceability). This system prioritizes mood, then energy, then danceability, and this is how the recommender works.)
+Instead of only returning ranked songs, the system first retrieves the top matching songs from the local dataset, then uses Gemini AI to reorder the songs into a better listening journey specifically for a flight and explain why each song fits the user’s mood, energy level, and travel context.
 
-Algorithm Recipe: 
-The system takes a user profile and song dataset.
-The user profile is given as:
-class UserProfile:
-    favorite_mood: str  # Primary mood preference
-    mood_tolerance: List[str]  # Secondary acceptable moods ["chill", "focused"]
-    target_energy: float  # 0.6
-    target_danceability: float  # 0.7
-    preferred_genres: List[str]  # ["pop", "indie pop"]
-    likes_acoustic: bool  # True/False to prefer acoustic vs. electronic
-    min_valence: float  # e.g., 0.5 (avoid sad/melancholic songs)
-
-Then, system loops through each song while filtering out those with irrelevent valence (to filter out songs which are clearly not matches). For each remaining song, it computes feature scores such as mood_score ∈ {1.0 (exact match), (acceptable match, in tolerance list), 0.0 (not a match)}, genre_score ∈ {1.0 (exact match), 0.2 (not a match)}, energy_score = 1 - |song.energy - user.target_energy|, and danceability_score = 1 - |song.danceability - user.target_danceability|. It then combines them using a weighted formula:
-score = 0.40*mood_score + 0.30*genre_score + 0.15*energy_score + 0.15*danceability_score.
-
-All (song, score) pairs are stored and sorted in descending order of score.
-Finally, the system returns the top K songs as personalized recommendations.
-
-Here is the mermaid diagram:
-![alt text](image.png)
-
-
-Biases: 
-Because of the weighted formula (0.40*mood_score + 0.30*genre_score + 0.15*energy_score + 0.15*danceability_score), this system will consider mood and genre matches more heavily than energy, danceability. This system will prioritize valence compatability, mood/feel of the song, and the song's classified genre the most, ignoring more technical aspects like acoustics.
-
-## Sample Terminal Output:
-High Energy/Pop Profile:
-![High Energy/Pop Recommendations](image-1.png)
-
-Sad Gym Junkie (Edge Case) Profile:
-![Edge Case Recommendations](image-2.png)
-
-Chill Lofi Profile:
-![Chill Lofi Recommendations](image-3.png)
-
-Deep Intense Rock Profile:
-![Deep Intense Rock Recommendations](image-4.png)
-
+This matters because recommendations become more human, contextual, and engaging rather than just numeric rankings.
 
 ---
 
+## Architecture Overview
 
+The system has three main layers:
 
-## Getting Started
+1. Traditional Recommendation Engine  
+Loads the song dataset, gets user music profile input, filters poor matches, computes weighted scores, and returns the top K recommendations.
 
-### Setup
+2. RAG + AI Layer  
+The retrieved songs and user profile are passed into Gemini AI (retrieval). Gemini reorders the playlist for a smoother travel experience and explains why each song belongs in that position (augmented generation). Gemini output is printed for the user to see.
 
-1. Create a virtual environment (optional but recommended):
+3. Reliability Layer  
+If the Gemini API call fails, the system uses a try/except fallback and safely prints the original ranked recommendations.
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate      # Mac or Linux
-   .venv\Scripts\activate         # Windows
+More comprehensive overview:
+The user begins by providing music preferences such as mood, favorite genres, and desired energy level.
 
-2. Install dependencies
+The system then loads the local song dataset and evaluates each song one by one. Songs that fail basic valence filters are discarded. Songs that pass are scored using factors (mood, genre, energy, and danceability).
 
-```bash
-pip install -r requirements.txt
-```
+All valid songs are ranked, and the top K songs are retrieved.
 
-3. Run the app:
+Those retrieved songs, along with the user profile and travel scenario, are sent to Gemini AI as context. Gemini generates a reordered playlist and explains the reasoning for each song.
 
-```bash
-python -m src.main
-```
+If the AI call succeeds, the AI playlist is shown to the user. If the AI call fails, the system falls back to the original ranked recommendations.
 
-### Running Tests
-
-Run the starter tests with:
-
-```bash
-pytest
-```
-
-You can add more tests in `tests/test_recommender.py`.
+This creates a complete pipeline of input → retrieval → AI reasoning → output, with built-in reliability checks.
 
 ---
 
-## Experiments You Tried
-I tested my recommender on four different user profiles: happy/pop, lofi/chill, edge case (prefer high energy but sad genre), and heavy rock. For each of these cases, I looked at the songs recommended and their corresponding genres, moods, and energy levels, and for all cases, the recommendations seemed accurate and reasonable. None of the recommendations surprised me too much.
+## Setup Instructions
+
+1. Clone the repository
+git clone <your_repo_url>
+cd project_folder
+
+2. Create a virtual environment
+python -m venv venv
+source venv/bin/activate
+
+3. Install dependencies
+pip install google-genai
+pip install python-dotenv
+
+4. Create a .env file and add these lines to it:
+GEMINI_API_KEY=your_api_key_here
+
+5. Create .gitignore file and add these lines to it:
+__pycache__/
+.env
+
+6. Run the project
+python3 src/main.py
 
 ---
 
-## Limitations and Risks
-One weakness I discovered during my experiments is that my system favors labels over actual music. Since genre and mood account for about 70% of a song's score, and both of these are just labels of a song rather than the song's actual music, my system favors easily classifiable songs.
+## Sample Interactions
+
+### Example 1
+
+Input User Profile:
+High Energy Pop
+
+Retrieved Songs:
+1. Sunrise City
+   Score: 0.98
+2. Levitating
+   Score: 0.98
+3. Rooftop Lights
+   Score: 0.98
+4. As It Was
+   Score: 0.58
+5. Pink Venom
+   Score: 0.57
+6. Midnight Coding
+   Score: 0.57
+7. Focus Flow
+   Score: 0.56
+8. Library Rain
+   Score: 0.55
+9. Gym Hero
+   Score: 0.55
+10. Spacewalk Thoughts
+   Score: 0.52
+
+AI Output:
+1. Levitating - Dua Lipa: Kick off your flight with this incredibly happy and energetic pop hit, perfect for getting you in a great mood as you board and prepare for takeoff.
+2. Sunrise City - Neon Echo: Keep the good vibes soaring with another upbeat pop track, ideal for a cheerful start to your journey as you leave the ground behind.
+3. Rooftop Lights - Indigo Parade: Continue the happy, energetic pop atmosphere, making your initial climb a bright and enjoyable experience.
+4. Pink Venom - BLACKPINK: As you reach cruising altitude, let this energetic K-pop track keep your spirits high with its danceable beat, perfect for feeling awake and engaged.
+5. Gym Hero - Max Pulse: This high-energy pop track is great for a mid-flight boost if you're feeling a bit sluggish, keeping you energized and upbeat.
+6. As It Was - Harry Styles: Settle into the cruising phase with this popular pop song; it’s a familiar, steady rhythm that's great for relaxed listening or looking out the window.
+7. Midnight Coding - LoRoom: Transition into a more relaxed segment of your flight with this chill track, perfect for focusing on a book, work, or simply unwinding.
+8. Focus Flow - LoRoom: Maintain a calm and centered mood with this focused track, ideal for quiet concentration or just enjoying a peaceful moment in the air.
+9. Library Rain - Paper Lanterns: For deeper relaxation or if you’re trying to rest, this very chill track provides a soothing backdrop during your flight.
+10. Spacewalk Thoughts - Orbit Bloom: Wind down completely with this ambient, chill track, perfect for the final stages of the flight as you prepare for landing in a calm state.
+
+---
+
+### Example 2
+
+Input User Profile:
+Sad Gym Junkie
+
+Retrieved Songs:
+1. Storm Runner
+   Score: 1.00
+2. Night Drive Loop
+   Score: 0.85
+3. Fix You
+   Score: 0.76
+4. Back to December
+   Score: 0.53
+5. The Night We Met
+   Score: 0.53
+6. Someone Like You
+   Score: 0.51
+
+AI Output:
+1. Storm Runner - Voltline: Kicking off your journey with an intense rock track, perfect for fueling your energy as the plane takes flight.
+2. Night Drive Loop - Neon Echo: Settling into the flight with this moody synthwave tune, ideal for gazing out the window during the smooth cruise.
+3. Fix You - Coldplay: A slightly more reflective rock song that matches your preferred genre while easing into a thoughtful, calm mood mid-flight.
+4. Back to December - Taylor Swift: This mellow and emotional track provides a gentle, sad vibe, great for some quiet introspection during the longer stretch of the journey.
+5. The Night We Met - Lord Huron: Continuing the reflective mood, this song offers a calming, dreamy atmosphere as you unwind further into your journey.
+6. Someone Like You - Adele: A profoundly emotional and low-energy track to softly conclude your playlist, perfect for a peaceful descent or quiet contemplation before landing.
+
+---
+
+### Example 3
+
+Input User Profile:
+Chill Lofi
+
+Retrieved Songs:
+1. Spacewalk Thoughts
+   Score: 0.98
+2. Library Rain
+   Score: 0.98
+3. Midnight Coding
+   Score: 0.96
+4. Coffee Shop Stories
+   Score: 0.86
+5. Focus Flow
+   Score: 0.85
+6. Weightless
+   Score: 0.55
+7. Bad Guy
+   Score: 0.31
+8. As It Was
+   Score: 0.28
+9. Takedown
+   Score: 0.23
+10. Pink Venom
+   Score: 0.23
+
+AI Output:
+1. Weightless - Marconi Union: This deeply ambient track is perfect for the initial calm of boarding and the serene feeling of taking off, helping you relax into the journey.
+2. Spacewalk Thoughts - Orbit Bloom: Continue your ascent with this dreamy ambient tune, ideal for watching the clouds drift by and settling into the sky-high experience.
+3. Library Rain - Paper Lanterns: Settle into cruising altitude with this comforting lofi track, perfect for background listening, reading, or quiet reflection.
+4. Coffee Shop Stories - Slow Stereo: Enjoy a sophisticated, relaxed jazz vibe as you sip a beverage or work on your laptop, keeping the journey smooth and enjoyable.
+5. Focus Flow - LoRoom: Ideal for moments when you need gentle concentration, this lofi track helps you stay productive or engrossed in your favorite book.
+6. Midnight Coding - LoRoom: Maintain a steady, comfortable rhythm with this lofi track, perfect for sustained relaxation or light activity during the longer flight segment.
+7. Bad Guy - Billie Eilish: A distinct shift in rhythm and mood, this song offers a brief, intriguing change of pace to re-energize slightly during the middle of your journey.
+8. As It Was - Harry Styles: This popular pop track provides a familiar and slightly more upbeat interlude, serving as a momentary lift in energy during a long flight.
+9. Takedown - Valorant: This intense track offers a powerful burst of energy, perhaps for when you need a strong mental jolt or a brief escape into a different soundscape.
+10. Pink Venom - BLACKPINK: Finish your playlist with this dynamic and energetic track, offering a bold rhythmic push for the final stretch as you prepare for landing.
+
+If AI API Fails:
+The system displays the original top recommendations ranked by score.
+
+---
+
+## Design Decisions
+
+I chose to keep the original deterministic recommender because it already provided transparent scoring and reliable ranking. Instead of replacing it, I enhanced it with AI. I noticed that the original rationale behind the rankings seemed unclear due to the jargon used and details of scores that users probably will not care for. Using RAG and Gemini AI, the program now slightly reorders ranking specifically for a plane ride and provides readable rationale.
+
+Strengths:
+- Traditional logic handles structured ranking well.
+- Gemini handles sequencing, and intuitive explanations.
+
+Trade-offs:
+- Small local dataset limits recommendation diversity.
+- AI output depends on prompt quality.
+- Gemini mode requires internet/API access.
+
+---
+
+## Testing Summary
+
+What Worked:
+- Song retrieval consistently returned relevant recommendations.
+- Gemini successfully reordered songs into smoother playlists.
+- Fallback logic worked when AI errors occurred.
+
+What Did Not Work Initially:
+- Early prompts were too vague.
+- AI occasionally attempted to mention songs not in the retrieved list.
+- Parsing AI output: too unpredictable to rely on exact formatting.
+
+Fixes:
+- Added strict prompt instructions to only use retrieved songs.
+- Printed AI output directly instead of attempting to parse it.
+- Added try/except fallback behavior in case of API failure.
 
 ---
 
 ## Reflection
+This project taught me that useful AI systems are usually hybrids of traditional projects/systems and AI models. I learned about the effectiveness in using AI to enhance original output and make it more readable. My scoring engine was effective at structured ranking, while Gemini was better at language generation, sequencing, and personalization.
 
-Read and complete `model_card.md`:
+I also learned that retrieval is critical. Instead of letting AI guess recommendations, grounding it with retrieved songs from my local system makes outputs more reliable and controllable.
 
-[**Model Card**](model_card.md)
+More importantly, I learned that strong AI systems are not just model calls. They require architecture, constraints, fallback handling, and thoughtful integration. This is why it's so important to have a strong base system working before doing AI calls. Because AI calls are unpredictable and often need a lot of context, it is much better to have it tweak rather than do core logic. Overall, this was a great experience!
 
-Write 1 to 2 paragraphs here about what you learned:
+--
 
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
----
-
-## 7. `model_card_template.md`
-
-Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}  
-
-```markdown
-# 🎧 Model Card - Music Recommender Simulation
-
-## 1. Model Name
-MusicMind 1.0
-
----
-
-## 2. Intended Use
-This music recommender is meant for users to find more songs that fit their music taste. It assumes that the user has a good idea of what music they like and is not meant to be used to figure out new kinds of music interests. This can be used by real users.
-
----
-
-## 3. How It Works (Short Explanation)
-My scoring approach takes into consideration the user's preferred music mood, genre, energy, and danceability, filtering by valence first. The model turns those into a score using a weighted average, considering mood and genre the most. This means that genre and mood compatability is considerd more than energy compatability. I changed the number of components considered from the starter logic to make this score calculation more accurate and less biased.
-
----
-
-## 4. Data
-The model uses a dataset of 22 songs, most of which are English-language songs. A variety of genres are represented here, ranging from pop to lofi to rock. I added 12 more songs than originally provided so that the model has a larger set of songs to recommend, allowing more personalized recommendations by music taste. I think that, for the most part, this dataset is good at representing a variety of different music tastes.
+## Testing
 
 
----
-
-## 5. Strengths
-My system works well for a wide range of music preferences. For all cases I tested my system on, the recommendations seemed reasonable. This is because my system heavily considers genre and mood, making sure that the vibe of each recommended song mirrors user preferences.
 
 
----
+--
 
-## 6. Limitations and Bias
-One weakness I discovered during my experiments is that my system favors labels over actual music. Since genre and mood account for about 70% of a song's score, and both of these are just labels of a song rather than the song's actual music, my system favors easily classifiable songs. For example, songs that can easily be classified as "happy" mood and "pop" genre are more likely to appear correctly versus songs that fit under multiple moods and genres are less likely to be recommended. My system also struggles to output a diverse set of song recommendations, and does not allow room for the user to listen to new kinds of songs.
-
----
-
-## 7. Evaluation
-
-How did you check your system
-
-Examples:
-I tested my recommender on four different user profiles: happy/pop, lofi/chill, edge case (prefer high energy but sad genre), and heavy rock. For each of these cases, I looked at the songs recommended and their corresponding genres, moods, and energy levels, and for all cases, the recommendations seemed accurate and reasonable. None of the recommendations surprised me too much.
-Since many of the songs in my dataset are easily classifiable, the recommendations did not really change too much even after I eliminated the genre feature from scoring. However, I did notice that once I removed the genre feature, some songs that sort of sound like a particular genre, such as Takedown sounding like pop but being classified under rock, showed up under happy/pop. Removing genre gave more preference to actual musical content rather than labels, which can be good or bad depending on perspective.
----
-
-## 8. Future Work
-To improve the model, I would try and group together similar genres and moods to diversify the music recommendations. Currently, the model looks for exact matches in mood/genre but I think it would be better if the model also recommended similar mood/genre songs so that the user could explore more songs and figure out other kinds of songs they like, to get familiar with more songs.
+## Reflection and Ethics
 
 
----
-
-## 9. Personal Reflection
-I learned that recommender systems are much more complex than I previously imagined. They not only consider explicit user behavior but they also consider implicit user behavior such as time spent on certain songs. I discovered that, to be the most accurate, recommender systems must consider a variety of components when giving recommendations. I also learned that there must be weighting when giving a score to a particular candidate, and that it is important to prioritize the right components when scoring. This project made me realize that each recommendation system is biased in its own way (which is not a bad thing), and that one must clearly define what they want the recommendation system to prioritize beforehand. AI was especially helpful in this process to write out all the code, so that I could focus on the overall system design.
 

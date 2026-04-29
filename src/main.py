@@ -98,7 +98,7 @@ def main() -> None:
     print("\n🎧 Top Recommendations 🎧\n")
     print("=" * 50)
     print("Here are your top song recommendations for your plane journey, with explanations, hope you enjoy them!\n")
-    print(recommendations) 
+    print(recommendations)
 
 
 if __name__ == "__main__":
