@@ -244,3 +244,9 @@ Throughout my building process, I used AI for brainstorming, debugging and promp
 In the future, I would like to expand this project by including a more comprehensive dataset of songs. I would have the AI use the comprehensive set of songs to provide more detailed rationale as to why that song was chosen, and I think a more detailed dataset would also help the AI be more accurate with its choices. I would also like to allow the user to input their own music preferences rather than choosing from one of the provided ones.
 
 Overall, AI was most helpful when used as a collaborator for ideas and debugging, but I still needed to make final decisions, especially with system design, myself.
+
+--
+
+## Demo Video:
+https://drive.google.com/file/d/1dElYnb5R73wVojLC0460Oby8VEf-1rtd/view?usp=sharing
+

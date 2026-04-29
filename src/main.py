@@ -10,7 +10,7 @@ You will implement the functions in recommender.py:
 """
 
 from recommender import load_songs, recommend_songs
-from rag import generate_ai_playlist
+#from rag import generate_ai_playlist
 
 def main() -> None:
     print("Welcome to the Flight Music Recommender! We will recommend songs for your plane journey based on your music preferences and mood. Let's get started!\n")
