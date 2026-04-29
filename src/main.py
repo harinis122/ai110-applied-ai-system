@@ -13,8 +13,8 @@ from recommender import load_songs, recommend_songs
 from rag import generate_ai_playlist
 
 def main() -> None:
+    print("Welcome to the Flight Music Recommender! We will recommend songs for your plane journey based on your music preferences and mood. Let's get started!\n")
     songs = load_songs("data/songs.csv")
-    #print(f'Loaded songs: {len(songs)}')
 
     # High-energy pop
     high_energy_pop_profile = {
@@ -61,30 +61,28 @@ def main() -> None:
         "likes_acoustic": False,  
     }
 
-    
+    profile_input = int(input("Choose a user profile for the plane journey (1: High-energy pop, 2: Sad Gym Junkie, 3: Chill Lofi, 4: Deep Intense Rock): "))
+    if profile_input == 1:
+        preferred_profile = high_energy_pop_profile
+    elif profile_input == 2:
+        preferred_profile = edge_case_profile
+    elif profile_input == 3:
+        preferred_profile = chill_lofi_profile
+    elif profile_input == 4:
+        preferred_profile = intense_rock_profile
+    else:
+        print("Invalid choice, defaulting to High-energy pop profile.")
+        preferred_profile = high_energy_pop_profile
 
 
-    #recommendations = recommend_songs(high_energy_pop_profile, songs, k=5)
-    preliminary_recommendations = recommend_songs(high_energy_pop_profile, songs, k=10)
-    user_profile_str = str(high_energy_pop_profile)
+    preliminary_recommendations = recommend_songs(preferred_profile, songs, k=10)
+    user_profile_str = str(preferred_profile)
     recommendations = generate_ai_playlist(user_profile_str, preliminary_recommendations)
 
     print("\n🎧 Top Recommendations 🎧\n")
     print("=" * 50)
-    '''
-    for i, rec in enumerate(recommendations, 1):
-        song, score, explanation = rec
-
-        print(f"\n{i}. {song['title']}")
-        print(f"   Score: {score:.2f}")
-    
-        print("   Reasons:")
-        for reason in explanation.split("; "):
-            print(f"     - {reason}")
-
-    print("\n" + "=" * 50)
-    '''
-    print(recommendations)
+    print("Here are your top song recommendations for your plane journey, with explanations, hope you enjoy them!\n")
+    print(recommendations) 
 
 
 if __name__ == "__main__":
