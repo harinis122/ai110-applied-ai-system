@@ -241,4 +241,6 @@ What surprised me most was how important prompt wording was. Small changes in in
 
 Throughout my building process, I used AI for brainstorming, debugging and prompt refinement. One helpful AI suggestion was to enhance my existing recommender with Gemini API calls instead of replacing it in any way. Using this suggestion, I was able to brainstorm a good use of RAG with my original music recommender simulation. One flawed suggestion was with the mermaid.js diagram. Although I gave the AI my original mermaid.js diagram and specifically asked it to just add the Gemini API call and error handling to the tail end of it, it still overcomplicated the diagram a couple of times. It was only after a few tries that it gave me the diagram I was looking for.
 
+In the future, I would like to expand this project by including a more comprehensive dataset of songs. I would have the AI use the comprehensive set of songs to provide more detailed rationale as to why that song was chosen, and I think a more detailed dataset would also help the AI be more accurate with its choices. I would also like to allow the user to input their own music preferences rather than choosing from one of the provided ones.
+
 Overall, AI was most helpful when used as a collaborator for ideas and debugging, but I still needed to make final decisions, especially with system design, myself.
