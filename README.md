@@ -228,9 +228,7 @@ More importantly, I learned that strong AI systems are not just model calls. The
 --
 
 ## Testing
-
-
-
+Human evaluation: Overall, the AI's output is stable and generally works. Although it rarely keeps up with tiny formatting details such as adding a newline between each recommended song, it has consistently not deleted songs / added new songs and provided reasonable rationales for ordering. However, the AI did struggle under minimal context/instructions, which is why clear instructions are important.
 
 --
 
