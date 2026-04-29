@@ -82,3 +82,15 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
+
+"""
+My plan for final project (FINAL):
+1. recommend songs as usual (top 10)
+2. after that, put it through gemini and give context + rag 
+    1. retrival: top 10 songs + user profile + context (on a plane, ask to reorder + give reasoning behind why each song is recommended in that order and a one liner for each song)
+    2. augemtation, generation: use the reasoning to reorder the songs and give a one liner for each song (why it's recommended in that order)
+
+"""
