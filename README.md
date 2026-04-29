@@ -16,7 +16,7 @@ This matters because recommendations become more human, contextual, and engaging
 
 ## Architecture Overview
 
-The system has three main layers:
+The system has three main layers (system diagram is under assets folder):
 
 1. Traditional Recommendation Engine  
 Loads the song dataset, gets user music profile input, filters poor matches, computes weighted scores, and returns the top K recommendations.
@@ -228,11 +228,17 @@ More importantly, I learned that strong AI systems are not just model calls. The
 --
 
 ## Testing
-Human evaluation: Overall, the AI's output is stable and generally works. Although it rarely keeps up with tiny formatting details such as adding a newline between each recommended song, it has consistently not deleted songs / added new songs and provided reasonable rationales for ordering. However, the AI did struggle under minimal context/instructions, which is why clear instructions are important.
+Human evaluation: I've run my program many (15+) times to evaluate the AI' ourput and reliability. Overall, the AI's output is stable and generally works. Although it rarely keeps up with tiny formatting details such as adding a newline between each recommended song, it has consistently not deleted songs / added new songs and provided reasonable rationales for ordering. However, the AI did struggle under minimal context/instructions, which is why clear instructions are important.
 
 --
 
 ## Reflection and Ethics
+One limitation of this system is that it relies on a small song dataset which means that its recommendations are limited to the songs available. Also, if the dataset is biased in any way or overrepresents certain genres, the system will probably favor those genres while underrepresenting others. Another limitation is that user music preferences are simplified to fit into individual scores such as mood, energy, and danceability, but the reality is that music taste is more complex and can depend on more factors such as memories and cultural background. Finally, the Gemini playlist layer may also produce subjective outputs. Even when grounded by retrieved songs, the ordering or explanations might not always match what every user actually prefers.
 
+One misuse of this system would be presenting these AI-influenced recommendations as objectively correct rather than taking them with a grain of salt. Music preference is personal, so recommendations should be framed as guidance rather than facts. Also, AI could possibly invent songs or delete songs. Although I reduced this risk by telling Gemini to only use songs from the given list, there is still a possibility of AI hallucination.
 
+What surprised me most was how important prompt wording was. Small changes in instructions significantly changed whether the AI stayed obedient or not. I was also surprised that my traditional recommendation logic was more reliable than AI for ranking songs consistently. My recommendation engine produced stable results, while Gemini was better at personalization, sequencing, and intuitive explanations. This taught me that it is best to combine working software with AI rather than replacing one with the other.
 
+Throughout my building process, I used AI for brainstorming, debugging and prompt refinement. One helpful AI suggestion was to enhance my existing recommender with Gemini API calls instead of replacing it in any way. Using this suggestion, I was able to brainstorm a good use of RAG with my original music recommender simulation. One flawed suggestion was with the mermaid.js diagram. Although I gave the AI my original mermaid.js diagram and specifically asked it to just add the Gemini API call and error handling to the tail end of it, it still overcomplicated the diagram a couple of times. It was only after a few tries that it gave me the diagram I was looking for.
+
+Overall, AI was most helpful when used as a collaborator for ideas and debugging, but I still needed to make final decisions, especially with system design, myself.
