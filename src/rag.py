@@ -2,15 +2,42 @@ import os
 from dotenv import load_dotenv
 from google import genai
 
+"""
+My plan for final project (FINAL):
+1. recommend songs as usual (top 10)
+2. after that, put it through gemini and give context + rag 
+    1. retrival: top 10 songs + user profile + context (on a plane, ask to reorder + give reasoning behind why each song is recommended in that order and a one liner for each song)
+    2. augemtation, generation: use the reasoning to reorder the songs and give a one liner for each song (why it's recommended in that order)
+
+"""
+
+
 load_dotenv()
 
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
-def generate_ai_playlist(prompt):
+def generate_ai_playlist(user_profile, user_songs):
+    prompt = f"""
+    This user is on a plane and needs a playlist for the journey. This is their user profile, detailing their music preferences and mood:
+    {user_profile}
+
+    Based on this profile, we have recommended the following songs using a traditional recommendation algorithm:
+    {user_songs}
+
+    Based on the recommended songs, please reorder them in a way that would best suit the user's journey on the plane. For each song, provide a one-liner explanation for why it is recommended in that order and how it fits the user's journey. The explanation should consider the user's mood, energy levels, and the overall vibe of the flight. Please provide the reordered list of songs along with the explanations in a clear and concise manner, and avoid any jargon. Make the explanation engaging and informative, but brief. Make sure to only include songs that are in the original recommended list and DO NOT add any new songs.
+
+    When formatting the response, please use the following format:
+    1. Song Title - Artist Name: Explanation for why this song is recommended in this order.
+
+    2. Song Title - Artist Name: Explanation for why this song is recommended in this order.
+    
+    ...
+    """
+    
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-2.5-flash",
         contents=prompt
     )
     return response.text

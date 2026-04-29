@@ -10,11 +10,11 @@ You will implement the functions in recommender.py:
 """
 
 from recommender import load_songs, recommend_songs
-
+from rag import generate_ai_playlist
 
 def main() -> None:
-    songs = load_songs("data/songs.csv") 
-    print(f'Loaded songs: {len(songs)}') 
+    songs = load_songs("data/songs.csv")
+    #print(f'Loaded songs: {len(songs)}')
 
     # High-energy pop
     high_energy_pop_profile = {
@@ -61,12 +61,17 @@ def main() -> None:
         "likes_acoustic": False,  
     }
 
+    
 
-    recommendations = recommend_songs(high_energy_pop_profile, songs, k=5)
+
+    #recommendations = recommend_songs(high_energy_pop_profile, songs, k=5)
+    preliminary_recommendations = recommend_songs(high_energy_pop_profile, songs, k=10)
+    user_profile_str = str(high_energy_pop_profile)
+    recommendations = generate_ai_playlist(user_profile_str, preliminary_recommendations)
 
     print("\n🎧 Top Recommendations 🎧\n")
     print("=" * 50)
-
+    '''
     for i, rec in enumerate(recommendations, 1):
         song, score, explanation = rec
 
@@ -78,19 +83,9 @@ def main() -> None:
             print(f"     - {reason}")
 
     print("\n" + "=" * 50)
+    '''
+    print(recommendations)
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
-"""
-My plan for final project (FINAL):
-1. recommend songs as usual (top 10)
-2. after that, put it through gemini and give context + rag 
-    1. retrival: top 10 songs + user profile + context (on a plane, ask to reorder + give reasoning behind why each song is recommended in that order and a one liner for each song)
-    2. augemtation, generation: use the reasoning to reorder the songs and give a one liner for each song (why it's recommended in that order)
-
-"""
