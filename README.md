@@ -68,117 +68,6 @@ python3 src/main.py
 
 ---
 
-## Sample Interactions
-
-### Example 1
-
-Input User Profile:
-High Energy Pop
-
-Retrieved Songs:
-1. Sunrise City
-   Score: 0.98
-2. Levitating
-   Score: 0.98
-3. Rooftop Lights
-   Score: 0.98
-4. As It Was
-   Score: 0.58
-5. Pink Venom
-   Score: 0.57
-6. Midnight Coding
-   Score: 0.57
-7. Focus Flow
-   Score: 0.56
-8. Library Rain
-   Score: 0.55
-9. Gym Hero
-   Score: 0.55
-10. Spacewalk Thoughts
-   Score: 0.52
-
-AI Output:
-1. Levitating - Dua Lipa: Kick off your flight with this incredibly happy and energetic pop hit, perfect for getting you in a great mood as you board and prepare for takeoff.
-2. Sunrise City - Neon Echo: Keep the good vibes soaring with another upbeat pop track, ideal for a cheerful start to your journey as you leave the ground behind.
-3. Rooftop Lights - Indigo Parade: Continue the happy, energetic pop atmosphere, making your initial climb a bright and enjoyable experience.
-4. Pink Venom - BLACKPINK: As you reach cruising altitude, let this energetic K-pop track keep your spirits high with its danceable beat, perfect for feeling awake and engaged.
-5. Gym Hero - Max Pulse: This high-energy pop track is great for a mid-flight boost if you're feeling a bit sluggish, keeping you energized and upbeat.
-6. As It Was - Harry Styles: Settle into the cruising phase with this popular pop song; it’s a familiar, steady rhythm that's great for relaxed listening or looking out the window.
-7. Midnight Coding - LoRoom: Transition into a more relaxed segment of your flight with this chill track, perfect for focusing on a book, work, or simply unwinding.
-8. Focus Flow - LoRoom: Maintain a calm and centered mood with this focused track, ideal for quiet concentration or just enjoying a peaceful moment in the air.
-9. Library Rain - Paper Lanterns: For deeper relaxation or if you’re trying to rest, this very chill track provides a soothing backdrop during your flight.
-10. Spacewalk Thoughts - Orbit Bloom: Wind down completely with this ambient, chill track, perfect for the final stages of the flight as you prepare for landing in a calm state.
-
----
-
-### Example 2
-
-Input User Profile:
-Upbeat Melancholic
-
-Retrieved Songs:
-1. Storm Runner
-   Score: 1.00
-2. Night Drive Loop
-   Score: 0.85
-3. Fix You
-   Score: 0.76
-4. Back to December
-   Score: 0.53
-5. The Night We Met
-   Score: 0.53
-6. Someone Like You
-   Score: 0.51
-
-AI Output:
-1. Storm Runner - Voltline: Kicking off your journey with an intense rock track, perfect for fueling your energy as the plane takes flight.
-2. Night Drive Loop - Neon Echo: Settling into the flight with this moody synthwave tune, ideal for gazing out the window during the smooth cruise.
-3. Fix You - Coldplay: A slightly more reflective rock song that matches your preferred genre while easing into a thoughtful, calm mood mid-flight.
-4. Back to December - Taylor Swift: This mellow and emotional track provides a gentle, sad vibe, great for some quiet introspection during the longer stretch of the journey.
-5. The Night We Met - Lord Huron: Continuing the reflective mood, this song offers a calming, dreamy atmosphere as you unwind further into your journey.
-6. Someone Like You - Adele: A profoundly emotional and low-energy track to softly conclude your playlist, perfect for a peaceful descent or quiet contemplation before landing.
-
----
-
-### Example 3
-
-Input User Profile:
-Chill Lofi
-
-Retrieved Songs:
-1. Spacewalk Thoughts
-   Score: 0.98
-2. Library Rain
-   Score: 0.98
-3. Midnight Coding
-   Score: 0.96
-4. Coffee Shop Stories
-   Score: 0.86
-5. Focus Flow
-   Score: 0.85
-6. Weightless
-   Score: 0.55
-7. Bad Guy
-   Score: 0.31
-8. As It Was
-   Score: 0.28
-9. Takedown
-   Score: 0.23
-10. Pink Venom
-   Score: 0.23
-
-AI Output:
-1. Weightless - Marconi Union: This deeply ambient track is perfect for the initial calm of boarding and the serene feeling of taking off, helping you relax into the journey.
-2. Spacewalk Thoughts - Orbit Bloom: Continue your ascent with this dreamy ambient tune, ideal for watching the clouds drift by and settling into the sky-high experience.
-3. Library Rain - Paper Lanterns: Settle into cruising altitude with this comforting lofi track, perfect for background listening, reading, or quiet reflection.
-4. Coffee Shop Stories - Slow Stereo: Enjoy a sophisticated, relaxed jazz vibe as you sip a beverage or work on your laptop, keeping the journey smooth and enjoyable.
-5. Focus Flow - LoRoom: Ideal for moments when you need gentle concentration, this lofi track helps you stay productive or engrossed in your favorite book.
-6. Midnight Coding - LoRoom: Maintain a steady, comfortable rhythm with this lofi track, perfect for sustained relaxation or light activity during the longer flight segment.
-7. Bad Guy - Billie Eilish: A distinct shift in rhythm and mood, this song offers a brief, intriguing change of pace to re-energize slightly during the middle of your journey.
-8. As It Was - Harry Styles: This popular pop track provides a familiar and slightly more upbeat interlude, serving as a momentary lift in energy during a long flight.
-9. Takedown - Valorant: This intense track offers a powerful burst of energy, perhaps for when you need a strong mental jolt or a brief escape into a different soundscape.
-10. Pink Venom - BLACKPINK: Finish your playlist with this dynamic and energetic track, offering a bold rhythmic push for the final stretch as you prepare for landing.
-
 If AI API Fails:
 The system displays the original top recommendations ranked by score.
 
@@ -186,7 +75,17 @@ The system displays the original top recommendations ranked by score.
 
 ## Design Decisions
 
-I chose to keep the original deterministic recommender because it already provided transparent scoring and reliable ranking. Instead of replacing it, I enhanced it with AI. I noticed that the original rationale behind the rankings seemed unclear due to the jargon used and details of scores that users probably will not care for. Using RAG and Gemini AI, the program now slightly reorders ranking specifically for a plane ride and provides readable rationale.
+I chose to keep the original deterministic recommender because it already performed the structured parts of the task well. It filtered songs, calculated weighted scores based on factors such as mood, genre, energy, danceability, and valence, and produced a consistent ranking. Because this logic is rule-based, it is transparent, reproducible, and easier to debug than asking an AI model to generate recommendations from scratch.
+
+However, the original output was not very user-friendly. It mainly showed song rankings and numeric scores, which explained how the system made decisions technically but did not clearly explain why a user might enjoy each song. Terms such as valence, weighted similarity, and danceability may be useful during development, but most users are more interested in whether a song fits their mood and where it belongs in the listening experience.
+
+Instead of replacing the reliable recommender with Gemini, I used AI as an enhancement layer. The deterministic system still controls which songs are eligible and retrieves the strongest matches. Only those retrieved songs are passed to Gemini, along with the user’s preferences and the plane-ride context.
+
+Gemini then performs a task that is harder to express with fixed scoring rules: it slightly reorders the songs into a more natural listening journey. For example, it may place energetic songs near takeoff, calmer songs during the middle of the flight, and reflective or relaxing songs near the end. It also generates readable explanations describing why each song fits that position and how it relates to the user’s preferences.
+
+This hybrid design gives each component a clear responsibility. The traditional recommender handles filtering, scoring, and reliable retrieval, while Gemini handles contextual sequencing and natural-language explanation. This makes the system more engaging without giving the AI unrestricted control over the recommendations.
+
+There is also an important trade-off in this design. Because Gemini can reorder the retrieved songs, the final playlist may not follow the exact numerical ranking produced by the original algorithm. However, the model is constrained to the retrieved set, so it cannot freely recommend unrelated songs. This preserves much of the original system’s reliability while allowing the final output to feel more personalized and appropriate for the travel scenario.
 
 Strengths:
 - Traditional logic handles structured ranking well.
@@ -244,9 +143,4 @@ Throughout my building process, I used AI for brainstorming, debugging and promp
 In the future, I would like to expand this project by including a more comprehensive dataset of songs. I would have the AI use the comprehensive set of songs to provide more detailed rationale as to why that song was chosen, and I think a more detailed dataset would also help the AI be more accurate with its choices. I would also like to allow the user to input their own music preferences rather than choosing from one of the provided ones.
 
 Overall, AI was most helpful when used as a collaborator for ideas and debugging, but I still needed to make final decisions, especially with system design, myself.
-
---
-
-## Demo Video:
-https://drive.google.com/file/d/1dElYnb5R73wVojLC0460Oby8VEf-1rtd/view?usp=sharing
 
