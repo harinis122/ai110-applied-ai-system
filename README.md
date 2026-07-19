@@ -144,3 +144,18 @@ In the future, I would like to expand this project by including a more comprehen
 
 Overall, AI was most helpful when used as a collaborator for ideas and debugging, but I still needed to make final decisions, especially with system design, myself.
 
+--
+
+## Demo Questions for Students
+1. What part of this system is already working reliably without AI?
+      Expected answer: filtering, scoring, and ranking.
+      Why ask it: reinforces that students should preserve useful existing logic instead of replacing everything with an LLM.
+
+2. What does Gemini add that the original recommender could not do as well?
+      Expected answer: contextual sequencing and clearer, user-friendly explanations.
+      Why ask it: helps students distinguish between traditional logic and the specific value of AI.
+
+3. Why do I give Gemini only the retrieved songs instead of asking it to recommend any songs it wants?
+      Expected answer: better grounding, fewer hallucinations, more control, and stronger integration with the original project.
+      Why ask it: checks whether they understand why retrieval matters.
+
