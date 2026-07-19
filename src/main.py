@@ -10,7 +10,7 @@ You will implement the functions in recommender.py:
 """
 
 from recommender import load_songs, recommend_songs
-#from rag import generate_ai_playlist
+from rag import generate_ai_playlist
 
 def main() -> None:
     print("Welcome to the Flight Music Recommender! We will recommend songs for your plane journey based on your music preferences and mood. Let's get started!\n")
@@ -27,7 +27,7 @@ def main() -> None:
         "target_danceability": 0.7
     }
 
-    # Sad Gym Junkie (edge case)
+    # Upbeat Melancholic (edge case)
     edge_case_profile = {
         "min_valence": 0.2,
         "max_valence": 0.5,
@@ -61,7 +61,7 @@ def main() -> None:
         "likes_acoustic": False,  
     }
 
-    profile_input = int(input("Choose a user profile for the plane journey (1: High-energy pop, 2: Sad Gym Junkie, 3: Chill Lofi, 4: Deep Intense Rock): "))
+    profile_input = int(input("Choose a user profile for the plane journey (1: High-energy pop, 2: Upbeat Melancholic, 3: Chill Lofi, 4: Deep Intense Rock): "))
     if profile_input == 1:
         preferred_profile = high_energy_pop_profile
     elif profile_input == 2:

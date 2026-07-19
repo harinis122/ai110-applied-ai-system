@@ -114,7 +114,7 @@ AI Output:
 ### Example 2
 
 Input User Profile:
-Sad Gym Junkie
+Upbeat Melancholic
 
 Retrieved Songs:
 1. Storm Runner
