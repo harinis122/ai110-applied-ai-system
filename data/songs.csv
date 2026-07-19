@@ -1,23 +1,61 @@
 id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18
-2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71
-3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10
-4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86
+2,Levitating,Dua Lipa,pop,happy,0.80,103,0.92,0.82,0.12
+3,As It Was,Harry Styles,pop,moody,0.65,174,0.74,0.70,0.22
+4,Someone Like You,Adele,pop,sad,0.30,67,0.20,0.40,0.85
 5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05
-6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92
-7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89
-8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
+6,Lush Life,Zara Larsson,pop,happy,0.82,98,0.86,0.83,0.10
+7,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71
+8,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86
 9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
-10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
-11,Echoes of Sorrow,Shadow Veil,electronic,sad,0.25,85,0.15,0.35,0.75
-12,Levitating,Dua Lipa,pop,happy,0.80,103,0.92,0.82,0.12
-13,Pink Venom,BLACKPINK,k-pop,intense,0.88,90,0.70,0.79,0.08
-14,As It Was,Harry Styles,pop,moody,0.65,174,0.74,0.70,0.22
-15,Back to December,Taylor Swift,country,sad,0.35,72,0.30,0.50,0.78
-16,Takedown,Valorant,rock,intense,0.90,140,0.55,0.76,0.10
-17,Bad Guy,Billie Eilish,electronic,moody,0.43,135,0.56,0.70,0.33
-18,Someone Like You,Adele,pop,sad,0.30,67,0.20,0.40,0.85
-19,Fix You,Coldplay,rock,sad,0.32,70,0.25,0.45,0.80
-20,Hurt,Johnny Cash,country,sad,0.28,60,0.18,0.35,0.88
-21,The Night We Met,Lord Huron,indie,sad,0.34,74,0.22,0.48,0.82
-22,Weightless,Marconi Union,ambient,calm,0.20,60,0.65,0.30,0.95
+10,Soft Desk Lamp,LoRoom,lofi,relaxed,0.38,76,0.52,0.57,0.80
+11,Window Notes,Paper Lanterns,lofi,calm,0.32,70,0.55,0.49,0.88
+12,Late Study Loop,Quiet Keys,lofi,focused,0.45,82,0.50,0.63,0.69
+13,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10
+14,Takedown,KPop Demon Hunters,k-pop,intense,0.90,140,0.75,0.84,0.08
+15,Fix You,Coldplay,rock,sad,0.32,70,0.25,0.45,0.80
+16,Garage Lights,Iron Avenue,rock,moody,0.74,128,0.44,0.58,0.18
+17,Redline Heart,Voltline,rock,intense,0.88,145,0.50,0.70,0.12
+18,Open Road Echo,Stone Harbor,rock,happy,0.68,118,0.66,0.61,0.30
+19,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92
+20,Weightless,Marconi Union,ambient,calm,0.20,60,0.65,0.30,0.95
+21,Cloud Garden,Orbit Bloom,ambient,calm,0.24,64,0.58,0.35,0.91
+22,Deep Blue Signal,Aural Drift,ambient,moody,0.31,68,0.42,0.38,0.89
+23,Morning Stillness,Soft Horizon,ambient,relaxed,0.26,62,0.61,0.33,0.94
+24,Night Sky Texture,Aural Drift,ambient,focused,0.30,66,0.50,0.36,0.90
+25,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89
+26,Blue Train,John Coltrane,jazz,focused,0.55,116,0.50,0.45,0.70
+27,Sunday Brass,Velvet Trio,jazz,happy,0.52,104,0.76,0.58,0.65
+28,Rainy Saxophone,Slow Stereo,jazz,moody,0.42,88,0.48,0.46,0.78
+29,Late Night Standard,Blue Table Quartet,jazz,calm,0.34,72,0.57,0.40,0.86
+30,Uptown Swing,Velvet Trio,jazz,happy,0.70,132,0.82,0.74,0.42
+31,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
+32,Chrome Sunset,Neon Echo,synthwave,happy,0.78,116,0.68,0.76,0.20
+33,Arcade Chase,Pixel Runner,synthwave,intense,0.89,128,0.62,0.84,0.08
+34,City After Dark,Retro Bloom,synthwave,moody,0.66,104,0.43,0.69,0.25
+35,Digital Highway,Pixel Runner,synthwave,focused,0.72,120,0.55,0.71,0.18
+36,Electric Skyline,Retro Bloom,synthwave,chill,0.58,96,0.60,0.65,0.30
+37,Echoes of Sorrow,Shadow Veil,electronic,sad,0.25,85,0.15,0.35,0.75
+38,Bad Guy,Billie Eilish,electronic,moody,0.43,135,0.56,0.70,0.33
+39,Stateside,PinkPantheress,electronic,happy,0.86,132,0.74,0.88,0.08
+40,Firestarter,The Prodigy,electronic,intense,0.95,141,0.45,0.82,0.04
+41,Ocean Eyes,Billie Eilish,electronic,chill,0.38,145,0.35,0.52,0.62
+42,Afterglow Circuit,Shadow Veil,electronic,focused,0.69,126,0.52,0.78,0.16
+43,Back to December,Taylor Swift,country,sad,0.35,72,0.30,0.50,0.78
+44,Hurt,Johnny Cash,country,sad,0.28,60,0.18,0.35,0.88
+45,Golden Porchlight,Maple Road,country,happy,0.58,102,0.72,0.59,0.66
+46,Long Drive Home,Maple Road,country,relaxed,0.46,92,0.60,0.52,0.74
+47,Dusty Boots,Red Valley,country,intense,0.70,124,0.64,0.67,0.38
+48,Quiet Barn Song,Red Valley,country,calm,0.31,68,0.51,0.37,0.90
+49,The Night We Met,Lord Huron,indie,sad,0.34,74,0.22,0.48,0.82
+50,Rooftop Lights,Indigo Parade,indie,happy,0.76,124,0.81,0.82,0.35
+51,Heat Waves,Glass Animals,indie,moody,0.67,81,0.55,0.76,0.44
+52,Golden Hour,JVKE,indie,relaxed,0.50,94,0.72,0.65,0.55
+53,Paper Planets,Indigo Parade,indie,focused,0.57,108,0.62,0.61,0.50
+54,Foggy Apartment,Lord Huron,indie,calm,0.39,76,0.46,0.42,0.84
+55,Pink Venom,BLACKPINK,k-pop,intense,0.88,90,0.70,0.79,0.08
+56,Butter,BTS,k-pop,happy,0.78,110,0.88,0.85,0.10
+57,Dynamite,BTS,k-pop,happy,0.79,114,0.90,0.82,0.12
+58,After Like,IVE,k-pop,happy,0.84,125,0.83,0.86,0.09
+59,Ditto,NewJeans,k-pop,moody,0.61,134,0.56,0.74,0.20
+60,Spring Day,BTS,k-pop,sad,0.50,106,0.38,0.60,0.48
